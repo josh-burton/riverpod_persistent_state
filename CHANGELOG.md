@@ -1,4 +1,4 @@
-## 1.0.0
+## [1.0.0] - 2022-08-04
 
 feat(initial):
-- extract code from internal project
+- extract code from internal projects
