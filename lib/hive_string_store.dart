@@ -11,15 +11,17 @@ class HiveStringStore<T> extends PersistentStore<T> {
   late final Box<String> box;
   late FutureOr<T> Function() defaultValue;
 
-  HiveStringStore({required this.encode, required this.decode});
+  final String boxName;
+
+  HiveStringStore({
+    required this.encode,
+    required this.decode,
+    required this.boxName,
+  });
 
   @override
-  Future<void> init(
-    FutureOr<T> Function() defaultValue,
-    String storeName,
-  ) async {
-    this.defaultValue = defaultValue;
-    box = await Hive.openBox<String>(storeName);
+  Future<void> init() async {
+    box = await Hive.openBox<String>(boxName);
   }
 
   @override

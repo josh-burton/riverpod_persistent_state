@@ -9,12 +9,12 @@ class HiveStore<T> extends PersistentStore<T> {
   late final Box<T> box;
   late FutureOr<T> Function() defaultValue;
 
+  final String storeName;
+
+  HiveStore(this.storeName);
+
   @override
-  Future<void> init(
-    FutureOr<T> Function() defaultValue,
-    String storeName,
-  ) async {
-    this.defaultValue = defaultValue;
+  Future<void> init() async {
     box = await Hive.openBox<T>(storeName);
   }
 

@@ -88,7 +88,7 @@ class PersistentStateNotifier<T> extends StateNotifier<AsyncValue<T>> {
     required String name,
     Duration saveDebounce = const Duration(milliseconds: 1000),
   }) : super(const AsyncValue.loading()) {
-    _initFuture = store.init(defaultValue, name);
+    _initFuture = store.init();
     _initFuture.then(_load);
 
     _saveSub = stream

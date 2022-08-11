@@ -7,14 +7,17 @@ import './persistent_store_base.dart';
 @visibleForTesting
 class PersistentMemoryStore<T> implements PersistentStore<T> {
   late T value;
+  final FutureOr<T> Function() defaultValue;
+
+  PersistentMemoryStore({
+    required this.defaultValue,
+  });
+
   @override
   Future<void> close() async {}
 
   @override
-  Future<void> init(
-    FutureOr<T> Function() defaultValue,
-    String storeName,
-  ) async {
+  Future<void> init() async {
     value = await defaultValue();
   }
 

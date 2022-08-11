@@ -4,10 +4,7 @@ import 'dart:async';
 abstract class PersistentStore<T> {
   /// init call lazy only once before call load or save
   /// by default do nothing
-  Future<void> init(
-    FutureOr<T> Function() defaultValue,
-    String storeName,
-  );
+  Future<void> init();
 
   Future<T> load();
 

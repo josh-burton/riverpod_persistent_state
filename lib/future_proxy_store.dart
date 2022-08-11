@@ -10,17 +10,10 @@ class FutureProxyStore<T> extends PersistentStore<T> {
   FutureProxyStore(this.store);
 
   @override
-  Future<void> close() async {
-    return (await store).close();
-  }
+  Future<void> close() async => (await store).close();
 
   @override
-  Future<void> init(
-    FutureOr<T> Function() defaultValue,
-    String storeName,
-  ) async {
-    return (await store).init(defaultValue, storeName);
-  }
+  Future<void> init() async => (await store).init();
 
   @override
   Future<T> load() async => (await store).load();
