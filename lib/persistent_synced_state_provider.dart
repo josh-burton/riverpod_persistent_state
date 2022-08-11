@@ -28,7 +28,10 @@ PersistentStateNotifier<T> _ensureInitialized<T>(
   PersistentStateNotifier<T>? value,
 ) {
   if (value == null) {
-    throw 'PersistentSyncedProvider is not properly initialized call and await provider.awaitInitialization before runApp or use provider';
+    throw Exception(
+      'PersistentSyncedProvider is not properly initialized'
+      'call and await provider.awaitInitialization before runApp or provider usage',
+    );
   }
   return value;
 }
@@ -37,7 +40,10 @@ T _ensureLoaded<T>(
   AsyncValue<T> value,
 ) {
   if (value.whenOrNull(data: (_) => false) ?? true) {
-    throw 'PersistentSyncedProvider notifer is not properly initialized, provider.awaitInitialization was called but not awaited';
+    throw Exception(
+      'PersistentSyncedProvider notifer is not properly initialized'
+      'provider.awaitInitialization was called but not awaited',
+    );
   }
   return value.value as T;
 }
