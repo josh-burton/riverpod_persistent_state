@@ -20,6 +20,10 @@ class FutureProxyStore<T> extends PersistentStore<T> {
 
   @override
   Future<T> save(T newValue) async => (await store).save(newValue);
+
+  @override
+  FutureOr<T> Function() get defaultValue =>
+      () async => (await store).defaultValue();
 }
 
 extension FutureProxyStoreExtenstion<T> on Future<PersistentStore<T>> {

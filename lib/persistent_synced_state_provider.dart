@@ -8,10 +8,9 @@ import 'persistent_store_base.dart';
 class _LateInitializationHolder<T> {
   PersistentStateNotifier<T>? notifier;
 
-  FutureOr<T> Function() createDefaultValue;
   final PersistentStateNotifier<T> Function() create;
 
-  _LateInitializationHolder(this.create, this.createDefaultValue);
+  _LateInitializationHolder(this.create);
 
   Future<void> init() async {
     notifier = create();
@@ -20,7 +19,7 @@ class _LateInitializationHolder<T> {
         .then((v) => v is AsyncError);
 
     if (hasError) {
-      notifier!.set(await createDefaultValue());
+      notifier!.set(await notifier!.store.defaultValue());
     }
   }
 }
@@ -74,19 +73,18 @@ class PersistentSyncedStateProvider<T>
   final _LateInitializationHolder<T> _holder;
 
   PersistentSyncedStateProvider._(this._holder)
-      : super((_) => _PersistentSyncedStateNotifier<T>(
-            _ensureInitialized(_holder.notifier)));
+      : super(
+          (_) => _PersistentSyncedStateNotifier<T>(
+            _ensureInitialized(_holder.notifier),
+          ),
+        );
 
-  factory PersistentSyncedStateProvider(
-    FutureOr<T> Function() create, {
+  factory PersistentSyncedStateProvider({
     required PersistentStore<T> store,
     required String name,
   }) =>
       PersistentSyncedStateProvider._(
-        _LateInitializationHolder(
-          () => PersistentStateNotifier(create, store: store, name: name),
-          create,
-        ),
+        _LateInitializationHolder(() => PersistentStateNotifier(store: store)),
       );
 
   Future<void> awaitInitialized() async => _holder.init();

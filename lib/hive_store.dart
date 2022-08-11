@@ -7,6 +7,8 @@ import 'persistent_store_base.dart';
 /// Create box for each blopName, and store single value at 0 index with hive serialization
 class HiveStore<T> extends PersistentStore<T> implements ResetableStore {
   late final Box<T> box;
+
+  @override
   FutureOr<T> Function() defaultValue;
 
   final String boxName;

@@ -11,15 +11,18 @@ class HiveStringStore<T> extends PersistentStore<T> implements ResetableStore {
 
   final String boxName;
 
+  final Future<T> Function() _defaultValue;
+
   HiveStringStore({
     required this.encode,
     required this.decode,
     required this.boxName,
     required Future<T> Function() defaultValue,
-  }) : store = HiveStore(
+  })  : store = HiveStore(
           boxName: boxName,
           defaultValue: () => defaultValue().then(encode),
-        );
+        ),
+        _defaultValue = defaultValue;
 
   @override
   Future<void> init() async => store.init();
@@ -40,4 +43,7 @@ class HiveStringStore<T> extends PersistentStore<T> implements ResetableStore {
 
   @override
   Future<void> reset() => store.reset();
+
+  @override
+  FutureOr<T> Function() get defaultValue => _defaultValue;
 }

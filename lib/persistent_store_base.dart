@@ -11,6 +11,8 @@ abstract class PersistentStore<T> {
   Future<T> save(T newValue);
 
   Future<void> close();
+
+  FutureOr<T> Function() get defaultValue;
 }
 
 // base class for stores that can be reset.

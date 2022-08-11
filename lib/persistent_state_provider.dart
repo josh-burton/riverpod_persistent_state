@@ -94,10 +94,8 @@ class PersistentStateNotifier<T> extends StateNotifier<AsyncValue<T>> {
     isLoading = false;
   }
 
-  PersistentStateNotifier(
-    FutureOr<T> Function() defaultValue, {
+  PersistentStateNotifier({
     required this.store,
-    required String name,
     Duration saveDebounce = const Duration(milliseconds: 1000),
   }) : super(const AsyncValue.loading()) {
     _initFuture = store.init();
@@ -111,45 +109,20 @@ class PersistentStateNotifier<T> extends StateNotifier<AsyncValue<T>> {
   }
 }
 
-typedef CreateStoreFunction<T> = PersistentStore<T> Function(
-  StateNotifierProviderRef ref,
-);
-
-typedef CreateDefaultValueFunction<T> = FutureOr<T> Function() Function(
-  StateNotifierProviderRef ref,
-);
-
 // Provider to safe value in peristent store: disk, network, etc.
+// For simple usage when store does't depend on ref
+//
 // This class in first place for infer StateNotifierProvider types
 // ignore: subtype_of_sealed_class
 class PersistentStateProvider<T>
     extends StateNotifierProvider<PersistentStateNotifier<T>, AsyncValue<T>> {
-  PersistentStateProvider(
-    /// initializer for default value if store does't contain value
-    /// also allow recreate provider on other provider change through ref.watch
-    CreateDefaultValueFunction<T> defaultValue, {
+  PersistentStateProvider({
     required PersistentStore<T> store,
-    required String name,
+    Duration saveDebounce = const Duration(milliseconds: 1000),
   }) : super(
           (ref) => PersistentStateNotifier(
-            defaultValue(ref),
             store: store,
-            name: name,
-          ),
-        );
-
-  // allow to create store from riverpod ref
-  PersistentStateProvider.createStore(
-    /// initializer for default value if store does't contain value
-    /// also allow recreate provider on other provider change through ref.watch
-    CreateDefaultValueFunction<T> defaultValue, {
-    required CreateStoreFunction<T> createStore,
-    required String name,
-  }) : super(
-          (ref) => PersistentStateNotifier(
-            defaultValue(ref),
-            store: createStore(ref),
-            name: name,
+            saveDebounce: saveDebounce,
           ),
         );
 }
