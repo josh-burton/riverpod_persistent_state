@@ -52,6 +52,8 @@ class _PersistentSyncedStateNotifier<T> extends StateNotifier<T> {
   T update(T Function(T v) updater) {
     return state = notifier.update(updater).value as T;
   }
+
+  Future<void> reset() => notifier.reset();
 }
 
 // persistent provider that store data in store and allow acces and modify it

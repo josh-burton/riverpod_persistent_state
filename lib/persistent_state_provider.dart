@@ -51,6 +51,18 @@ class PersistentStateNotifier<T> extends StateNotifier<AsyncValue<T>> {
     return state = state.whenData(update);
   }
 
+  Future<void> reset() async {
+    await _initFuture;
+    if (store is ResetableStore) {
+      // TODO add method to await previous store.load call and then call reset
+      // right now reset call when _load in progress
+      await (store as ResetableStore).reset();
+      await _load(null);
+    } else {
+      throw Exception("Store is not ResetableStore and can't be reset");
+    }
+  }
+
   Future<void> _save(AsyncValue<T> newState) async {
     if (mounted == false) return;
 
