@@ -87,7 +87,6 @@ class PersistentSyncedStateProvider<T>
 
   factory PersistentSyncedStateProvider({
     required PersistentStore<T> store,
-    required String name,
   }) =>
       PersistentSyncedStateProvider._(
         _LateInitializationHolder(() => PersistentStateNotifier(store: store)),

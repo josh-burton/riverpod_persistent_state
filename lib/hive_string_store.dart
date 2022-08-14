@@ -11,16 +11,16 @@ class HiveStringStore<T> extends PersistentStore<T> implements ResetableStore {
 
   final String boxName;
 
-  final Future<T> Function() _defaultValue;
+  final FutureOr<T> Function() _defaultValue;
 
   HiveStringStore({
     required this.encode,
     required this.decode,
     required this.boxName,
-    required Future<T> Function() defaultValue,
+    required FutureOr<T> Function() defaultValue,
   })  : store = HiveStore(
           boxName: boxName,
-          defaultValue: () => defaultValue().then(encode),
+          defaultValue: () async => encode(await defaultValue()),
         ),
         _defaultValue = defaultValue;
 

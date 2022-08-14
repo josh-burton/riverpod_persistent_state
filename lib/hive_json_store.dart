@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'hive_string_store.dart';
@@ -21,7 +22,7 @@ String Function(T v) _encode<T>(dynamic Function(T v)? toJson) {
 
 class HiveJsonStore<T> extends HiveStringStore<T> {
   HiveJsonStore({
-    required Future<T> Function() defaultValue,
+    required FutureOr<T> Function() defaultValue,
     required String boxName,
     required T Function(dynamic v) fromJson,
     // parameter can be omit for class that implements toJson method
