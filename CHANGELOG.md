@@ -1,4 +1,4 @@
-## [1.1.0] - WIP
+## [1.1.0] - 2022-08-14
 
 feat(refactor interface):
 - remove storeName, defaultValue from `init` signature and add it to store
