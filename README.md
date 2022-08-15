@@ -21,7 +21,6 @@ final tokenProvider = PersistentStateProvider<AuthorizationValue>(
   store: HiveJsonStore(
     defaultValue: () => const AuthorizationValue.unauthorized()
     fromJson: (json) => AuthorizationValue.fromJson(json),
-    toJson: (value) => value.toJson(),
     boxName: 'token',
   ),
 );
