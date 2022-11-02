@@ -46,11 +46,12 @@ class PersistentStateNotifier<T> extends StateNotifier<AsyncValue<T>> {
   }
 
   // immediate return updated value, sync proceed in background with debounce
-  // use `nextSync` getter if you want wait complete sync
+  // use `nextSync` getter if you want await sync completion
   AsyncValue<T> update(T Function(T value) update) {
     return state = state.whenData(update);
   }
 
+  // reset provider to store default value
   Future<void> reset() async {
     await _initFuture;
     if (store is ResetableStore) {
@@ -89,7 +90,7 @@ class PersistentStateNotifier<T> extends StateNotifier<AsyncValue<T>> {
     try {
       state = AsyncValue.data(await store.load());
     } catch (error, stackTrace) {
-      state = AsyncValue.error(error, stackTrace: stackTrace);
+      state = AsyncValue.error(error, stackTrace);
     }
     isLoading = false;
   }

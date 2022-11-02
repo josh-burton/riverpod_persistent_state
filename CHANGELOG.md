@@ -1,3 +1,8 @@
+## [2.0.0] - 2022-11-03
+
+deps:
+- bump riverpod to 2.0.0
+
 ## [1.1.0] - 2022-08-14
 
 feat(refactor interface):

@@ -7,6 +7,8 @@ import './persistent_store_base.dart';
 @visibleForTesting
 class PersistentMemoryStore<T> implements PersistentStore<T> {
   late T value;
+
+  @override
   final FutureOr<T> Function() defaultValue;
 
   PersistentMemoryStore({
