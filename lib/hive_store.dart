@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:hive/hive.dart';
+import 'package:hive_ce/hive.dart';
 
 import 'persistent_store_base.dart';
 
